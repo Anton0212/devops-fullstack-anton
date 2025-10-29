@@ -1,11 +1,9 @@
 name: userinfo
 on:
   pull_request:
-    branches: [ main ]
-
 jobs:
-  say-my-name:
+  say-name:
     runs-on: ubuntu-latest
     steps:
-      - name: Echo my name
-        run: echo "Anton Pihlajaniemi"
+      - run: echo "Anton Pihlajaniemi"
+
