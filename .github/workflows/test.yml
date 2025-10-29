@@ -1,12 +1,9 @@
 name: tests
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
+  workflow_call:
 
 jobs:
   run-tests:
-    if: ${{ github.event_name == 'pull_request' || github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -14,10 +11,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          # cache: npm
-          # cache-dependency-path: |
-          #   server/package-lock.json
-          #   client/package-lock.json
 
       - name: Server install
         working-directory: server
@@ -34,4 +27,5 @@ jobs:
       - name: Client test
         working-directory: client
         run: npm test --if-present
+
 
