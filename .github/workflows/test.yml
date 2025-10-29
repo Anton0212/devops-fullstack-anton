@@ -1,0 +1,32 @@
+name: tests
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  run-tests:
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Server install
+        working-directory: server
+        run: npm ci
+
+      - name: Server test
+        working-directory: server
+        run: npm test --if-present
+
+      - name: Client install
+        working-directory: client
+        run: npm ci
+
+      - name: Client test
+        working-directory: client
+        run: npm test --if-present
